@@ -23,7 +23,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
     @Override //this execute second
     public void configureMessageBroker(MessageBrokerRegistry config) {
         //config.enableSimpleBroker("/topic");
-        config.enableStompBrokerRelay("/topic");
+        config.enableStompBrokerRelay("/topic","/queue");
         config.setApplicationDestinationPrefixes("/app");
     }
 
@@ -44,6 +44,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
                 if (StompCommand.CONNECT.equals(accessor.getCommand())) {
                     //Principal user = ... ; // access authentication header(s)
+                    /*
                     Principal user = new Principal() {
                         @Override
                         public String getName() {
@@ -51,6 +52,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
                         }
                     };
                     accessor.setUser(user);
+                    */
                 }
 
                 return message;

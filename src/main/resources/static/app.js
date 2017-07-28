@@ -25,6 +25,10 @@ function connect() {
         stompClient.subscribe('/topic/events', function (event) {
             showEvent(event.body);
         });
+
+        stompClient.subscribe('/user/queue/ownhello', function (greeting) {
+            showGreeting(JSON.parse(greeting.body).content);
+        });
     });
 }
 
@@ -36,8 +40,8 @@ function disconnect() {
     console.log("Disconnected");
 }
 
-function sendName() {
-    stompClient.send("/app/hello", {}, JSON.stringify({'name': $("#name").val()}));
+function sendName(dest) {
+    stompClient.send(dest, {}, JSON.stringify({'name': $("#name").val(),"date":new Date()}));
 }
 
 function showGreeting(message) {
@@ -54,6 +58,7 @@ $(function () {
     });
     $( "#connect" ).click(function() { connect(); });
     $( "#disconnect" ).click(function() { disconnect(); });
-    $( "#send" ).click(function() { sendName(); });
+    $( "#send" ).click(function() { sendName("/app/hello"); });
+    $( "#send2" ).click(function() { sendName("/app/hello-with-time"); });
 });
 
